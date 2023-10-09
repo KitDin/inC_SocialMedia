@@ -114,12 +114,13 @@ export async function login(req, res) {
     const { email, password } = req.body;
     if (await checkAccout_Password(email, email, password)) {
       return res.json({
-        status: "logined",
+        status: "successful",
         mess: "/home",
       });
     } else {
       return res.json({
-        status: "Your username or password is not correct",
+        status: "error",
+        error: "Your username or password is not correct",
       });
     }
   } catch (error) {

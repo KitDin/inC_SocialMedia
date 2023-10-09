@@ -53,12 +53,9 @@ export default{
         }
     },methods:{
         async login (){
-                await AuthenticationSevice.register({
-                    "USER_AccountName": this.username,
-                    "USER_Email": this.email,
-                    "USER_Password": this.password,
-                    "repassword":this.repassword,
-                    "USER_UpdateAt": "0"
+                await AuthenticationSevice.login({
+                    "email": this.email,
+                    "password": this.password,
                 }).then(response => {
                     this.error = response.data.error;
                     this.status = response.data.status;

@@ -13,7 +13,7 @@ const routes = [
     name: "Register",
     component: Register
   },
-  { path: "/login", component: Login }
+  { path: "/", component: Login }
 ];
 
 export default new Router({

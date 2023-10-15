@@ -18,12 +18,22 @@ export async function getUsers() {
   return row;
 }
 
-export async function getUser(id) {
+export async function getUser(username, email) {
   const [row] = await pool.query(
     `
   select * 
   from __USER 
-  where user_id = ?
+  where USER_AccountName = ? or USER_Email = ?
+  `,
+    [username, email]
+  );
+  return row[0];
+}
+
+export async function getUserById(id) {
+  const [row] = await pool.query(
+    `
+  select * from inc_socialmedia.__user a left join inc_socialmedia.__user_infor b on a.USER_Id = b.USER_Id where a.USER_Id=?;
   `,
     [id]
   );

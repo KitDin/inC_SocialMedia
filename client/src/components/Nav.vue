@@ -3,10 +3,12 @@
         <img class="img" src="../assets/img_logo/logo.png" alt="">
         <div>
             <ul class="navmenu">
-                <li class="navli" v-for="link in links" :key="link" :class="{ active: link.link_to === $route.path }"
+                <li class="navli" v-for="link in links" :key="link.id" :class="{ active: link.link_to === $route.name }"
                     @click="handleItemClick(link)" style="cursor: pointer;">
                     <div class="nava">
-                        <i ref="i" class="icon" :class="getActiveIconClass(link)"></i>
+                        <i v-if="link.icon" ref="i" class="icon" :class="getActiveIconClass(link)"></i>
+                        <img v-else :src="user.USER_AvatarURL != null ? loadimg(user.USER_AvatarURL) : ''" alt=""
+                            class="avatar">
                         <p class="text" v-if="!is_expanded">{{ link.text }}</p>
                     </div>
                 </li>
@@ -33,8 +35,8 @@
             <ul class="navmenu">
                 <li class="navli">
                     <div class="nava" @click="shownav()" style="cursor: pointer;">
-                        <i class=" icon bi bi-three-dots-vertical"></i>
-                        <p class=" text">More</p>
+                        <i class="icon bi bi-three-dots-vertical"></i>
+                        <p class="text">More</p>
                     </div>
                 </li>
             </ul>
@@ -44,6 +46,9 @@
 
 <script >
 import ref from 'vue'
+import Vue from "vue";
+
+import AuthenticationService from '../services/AuthenticationService';
 import { RouterLink } from 'vue-router'
 let activeItem = null;
 export default {
@@ -51,13 +56,15 @@ export default {
         return {
             is_expanded: false,
             show_nav: false,
+            userid: this.$router.history.current.params.id,
+            user: [],
             links: [
-                { id: 1, icon: "bi bi-house-door", icon_fill: "bi bi-house-fill", text: "Home", link_to: "/home" },
-                { id: 2, icon: "bi bi-search-heart", icon_fill: "bi bi-search-heart-fill", text: "Search", link_to: "/search" },
-                { id: 3, icon: "bi bi-chat-dots", icon_fill: "bi bi-chat-fill", text: "Messages", link_to: "/messages" },
+                { id: 1, icon: "bi bi-house-door", icon_fill: "bi bi-house-fill", text: "Home", link_to: "Home" },
+                { id: 2, icon: "bi bi-search-heart", icon_fill: "bi bi-search-heart-fill", text: "Search", link_to: null },
+                { id: 3, icon: "bi bi-chat-dots", icon_fill: "bi bi-chat-fill", text: "Messages", link_to: "Messages" },
                 { id: 4, icon: "bi bi-heart", icon_fill: "bi bi-heart-fill", text: "Notifications", link_to: null },
                 { id: 5, icon: "bi bi-plus-circle", icon_fill: "bi bi-plus-circle-fill", text: "Create", link_to: null },
-                { id: 6, icon: "avatar", text: "Profile", link_to: "/notifications" },
+                { id: 6, text: "Profile", avatar: this.user ? this.user.USER_AvatarURL : '', link_to: "/notifications" },
             ],
             set_up_items: [
                 { id: 1, icon: "bi bi-gear", text: "Settings" },
@@ -65,11 +72,15 @@ export default {
                 { id: 3, icon: "bi bi-save", text: "Saved" },
                 { id: 4, icon: "bi bi-brightness-low", text: "Switch appearance" },
                 { id: 5, icon: "bi bi-exclamation-circle", text: "Report a problem" },
-            ]
+            ],
         };
     }, methods: {
         handleItemClick(link) {
-            if (link.id === 4) {
+            if (link.id === 2) {
+                if (!this.is_expanded) {
+                    this.is_expanded = !this.is_expanded
+                }
+            } else if (link.id === 4) {
                 if (!this.is_expanded) {
                     this.is_expanded = !this.is_expanded
                 }
@@ -78,18 +89,34 @@ export default {
                     this.is_expanded = !this.is_expanded
                 }
             } else {
-                this.$router.push(link.link_to);
+                this.$router.push({
+                    name: link.link_to,
+                    params: { id: this.userid }
+                }).catch(err => {
+                    if (
+                        err.name !== 'NavigationDuplicated' &&
+                        !err.message.includes('Avoided redundant navigation to current location')
+                    ) {
+                        logError(err);
+                    }
+                });;
             }
         },
         getActiveIconClass(link) {
-            return link.link_to === this.$route.path ? link.icon_fill : link.icon;
+            return link.link_to === this.$route.name ? link.icon_fill : link.icon;
         },
         logout() {
             this.$router.push('/')
         },
         shownav() {
             this.show_nav = !this.show_nav
+        },
+        loadimg(user) {
+            return require(`../assets/img_users/avatars/${user}`)
         }
+    }, async mounted() {
+        this.user = (await AuthenticationService.getUser(this.userid)).data;
+        // console.log(this.links);
     },
     components: { RouterLink },
 }
@@ -123,7 +150,6 @@ export default {
         list-style: none;
         display: flex;
         flex-direction: column;
-        font-weight: 500;
     }
 
     .img {
@@ -268,7 +294,6 @@ export default {
         list-style: none;
         display: flex;
         flex-direction: column;
-        font-weight: 500;
 
         .navli {
             display: block;
@@ -354,7 +379,7 @@ export default {
 
         .prevent {
             position: absolute;
-            width: 500%;
+            width: 2000px;
             height: 500%;
             top: -500px;
         }
@@ -363,5 +388,13 @@ export default {
             display: none;
         }
     }
+}
+
+.avatar {
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    object-fit: cover;
+    margin: 8px;
 }
 </style>

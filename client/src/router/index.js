@@ -9,15 +9,19 @@ import SearchPage from "@/views/SearchPage";
 Vue.use(Router);
 
 const routes = [
-  { path: "/home", name: "Home", component: HomePage },
+  {
+    path: "/home/:id",
+    name: "Home",
+    component: HomePage
+  },
   {
     path: "/register",
     name: "Register",
     component: Register
   },
   { path: "/", name: "Login", component: Login },
-  { path: "/messages", name: "MessagesPage", component: MessagesPage },
-  { path: "/search", name: "SearchPage", component: SearchPage }
+  { path: "/messages/:id", name: "Messages", component: MessagesPage },
+  { path: "/search/:id", name: "Search", component: SearchPage }
 ];
 
 export default new Router({

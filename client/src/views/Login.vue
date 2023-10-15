@@ -20,7 +20,7 @@
                         <div v-html="error" class="error"></div>
 
                         <div class="mb-2">
-                            <button @click.prevent @click="login" class="btn btn-primary fw-bold w-100 bg-gradient">Sign
+                            <button @click.prevent @click="login()" class="btn btn-primary fw-bold w-100 bg-gradient">Sign
                                 Up</button>
                         </div>
                         <div class="mb-3 text-center">
@@ -39,6 +39,7 @@
             </div>
             <Footer></Footer>
         </div>
+        <router-view />
     </section>
 </template>
 
@@ -51,6 +52,7 @@ export default {
         return {
             email: '',
             password: '',
+            user: '',
             error: '',
             status: '',
         }
@@ -62,9 +64,15 @@ export default {
             }).then(response => {
                 this.error = response.data.error;
                 this.status = response.data.status;
-                if (response.data.status === "successful") {
-                    this.$router.push(`${response.data.mess}`)
-                }
+                if (response.data.status === "successful" && response.status === 200) {
+                    this.user = response.data.user.USER_Id,
+                        this.$router.push(
+                            {
+                                name: `Home`,
+                                params: { id: this.user }
+                            }
+                        )
+                } console.log(response);
             });
         }
     }, components: {

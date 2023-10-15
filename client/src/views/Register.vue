@@ -18,25 +18,25 @@
                             </p>
                         </div>
                         <div class="form-floating mb-3">
-                            <input class="form-control .bg-light" name="email" v-model="email" placeholder="Mobile Number or Email"
-                                required="" type="email" /><label>Email</label>
+                            <input class="form-control .bg-light" name="email" v-model="email"
+                                placeholder="Mobile Number or Email" required="" type="email" /><label>Email</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input class="form-control" name="username" v-model="username" placeholder="Username" required=""
-                                type="text" /><label>Username</label>
+                            <input class="form-control" name="username" v-model="username" placeholder="Username"
+                                required="" type="text" /><label>Username</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input class="form-control" name="password" v-model="password" placeholder="Password" required=""
-                                type="password" /><label>Password</label>
+                            <input class="form-control" name="password" v-model="password" placeholder="Password"
+                                required="" type="password" /><label>Password</label>
                         </div>
 
                         <div class="form-floating mb-3">
-                                <input class="form-control" name="repassword" v-model="repassword" placeholder="Password" required=""
-                                    type="password" /><label>Enter again Password</label>
-                            </div>
+                            <input class="form-control" name="repassword" v-model="repassword" placeholder="Password"
+                                required="" type="password" /><label>Enter again Password</label>
+                        </div>
 
                         <div v-html="error" class="error"></div>
-                            
+
                         <div class="mb-2">
                             <button @click.prevent @click="register" class="btn btn-primary fw-bold w-100 bg-gradient">Sign
                                 Up</button>
@@ -47,7 +47,7 @@
                     </form>
                     <div class="bg-white py-4 px-5 text-center border mt-4 box-link">
                         <p class="m-0">
-                            Have an account? <router-link to="/">Log In</router-link> 
+                            Have an account? <router-link to="/">Log In</router-link>
                         </p>
                     </div>
                 </div>
@@ -60,50 +60,51 @@
 <script>
 import Footer from '../components/Footer.vue';
 import AuthenticationSevice from '../services/AuthenticationService'
-export default{
-    data(){
+export default {
+    data() {
         return {
-            email:'',
-            fullname:'',
-            username:'',
-            password:'',
-            repassword:'',
-            error:'',
-            status:'',
+            email: '',
+            fullname: '',
+            username: '',
+            password: '',
+            repassword: '',
+            error: '',
+            status: '',
         }
-    },methods:{
-        async register (){
-                await AuthenticationSevice.register({
-                    "USER_AccountName": this.username,
-                    "USER_Email": this.email,
-                    "USER_Password": this.password,
-                    "repassword":this.repassword,
-                    "USER_UpdateAt": "0"
-                }).then(response => {
-                    this.error = response.data.error;
-                    this.status = response.data.status;
-                    if(response.data.status === "successful"){
-                        this.$router.push(`${response.data.mess}`)
-                    }
-                });
+    }, methods: {
+        async register() {
+            await AuthenticationSevice.register({
+                "USER_AccountName": this.username,
+                "USER_Email": this.email,
+                "USER_Password": this.password,
+                "repassword": this.repassword,
+                "USER_UpdateAt": "0"
+            }).then(response => {
+                this.error = response.data.error;
+                this.status = response.data.status;
+                if (response.data.status === "successful") {
+                    this.$router.push(`/`)
+                }
+            });
         }
-    },components:{
+    }, components: {
         Footer,
     }
 }
 </script>
 
 <style>
-    label{
-        opacity: .5;
-    }
+label {
+    opacity: .5;
+}
 
-    .error{
-        color: red;
-        text-align: center;
-        padding-bottom: 15px;
-    }
-    .box-link{
-        margin-bottom: 30px;
-    }
+.error {
+    color: red;
+    text-align: center;
+    padding-bottom: 15px;
+}
+
+.box-link {
+    margin-bottom: 30px;
+}
 </style>

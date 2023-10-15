@@ -1,6 +1,7 @@
 import {
   getUsers,
   getUser,
+  getUserById,
   createUser,
   getAccountName_Email,
   checkAccout_Password,
@@ -13,9 +14,9 @@ export async function getUsersController(req, res) {
   res.send(users);
 }
 
-export async function getUserById(req, res) {
+export async function getUserController(req, res) {
   const id = req.params.id;
-  const user = await getUser(id);
+  const user = await getUserById(id);
   res.send(user);
 }
 
@@ -113,9 +114,11 @@ export async function login(req, res) {
   try {
     const { email, password } = req.body;
     if (await checkAccout_Password(email, email, password)) {
+      const getid = await getUser(email, email);
       return res.json({
         status: "successful",
-        mess: "/home",
+        mess: `/home/`,
+        user: getid,
       });
     } else {
       return res.json({

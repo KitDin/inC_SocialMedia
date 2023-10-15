@@ -1,41 +1,41 @@
 <template>
-    <div class="rule-content">     
-            <ul>
-                <li>About</li>
-                <li>Blog</li>
-                <li>Jobs</li>
-                <li>Helps</li>
-                <li>API</li>
-                <li>Privacy</li>
-                <li>Terms</li>
-                <li>Locations</li>
-                <li>InC</li>
-                <li>InC Verified</li>
-                <li>InC LITE</li>
-                <li>InC Rule</li>
-            </ul>
-            <ul>
-                <li>© 2023 inC from Me</li> 
-            </ul>
+    <div class="rule-content">
+        <ul>
+            <li>About</li>
+            <li>Blog</li>
+            <li>Jobs</li>
+            <li>Helps</li>
+            <li>API</li>
+            <li>Privacy</li>
+            <li>Terms</li>
+            <li>Locations</li>
+            <li>InC</li>
+            <li>InC Verified</li>
+            <li>InC LITE</li>
+            <li>InC Rule</li>
+        </ul>
+        <ul>
+            <li>© 2023 inC from Me</li>
+        </ul>
     </div>
 </template>
 
 <script>
-    export default {
-   
-    }
+export default {
+
+}
 </script>
 
-<style scoped> 
-    ul{
-        list-style: none;
-        font-size: 13px;
-        color: silver;
-        display: flex;
-        justify-content: center;
-    }
-    
-    ul > li {
-        margin: 8px;
-    }
+<style scoped> ul {
+     list-style: none;
+     font-size: 13px;
+     color: silver;
+     display: flex;
+     justify-content: center;
+     flex-wrap: wrap;
+ }
+
+ ul>li {
+     margin: 8px;
+ }
 </style>

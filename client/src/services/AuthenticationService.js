@@ -6,10 +6,11 @@ export default {
   },
   login(credentials) {
     return Api().post("login", credentials);
+  },
+  getUser(id) {
+    return Api().get(`${id}`);
+  },
+  getUsers() {
+    return Api().get();
   }
 };
-
-// AuthenticationService.register({
-//   USER_AccountName: "esttt",
-//   USER_Password: "145631"
-// });

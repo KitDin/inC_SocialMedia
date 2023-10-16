@@ -29,7 +29,7 @@ export default {
 
 body {
   width: 100%;
-  background: #fafafa;
+  /* background: #fafafa; */
   position: relative;
   font-family: 'roboto', sans-serif;
 }

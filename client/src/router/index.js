@@ -4,7 +4,6 @@ import HomePage from "@/views/HomePage";
 import Register from "@/views/Register";
 import Login from "@/views/Login";
 import MessagesPage from "@/views/MessagesPage";
-import SearchPage from "@/views/SearchPage";
 
 Vue.use(Router);
 
@@ -20,8 +19,7 @@ const routes = [
     component: Register
   },
   { path: "/", name: "Login", component: Login },
-  { path: "/messages/:id", name: "Messages", component: MessagesPage },
-  { path: "/search/:id", name: "Search", component: SearchPage }
+  { path: "/messages/:id", name: "Messages", component: MessagesPage }
 ];
 
 export default new Router({

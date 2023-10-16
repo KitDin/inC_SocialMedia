@@ -12,5 +12,11 @@ export default {
   },
   getUsers() {
     return Api().get();
+  },
+  getUserRequest(id) {
+    return Api().get(`/frients/${id}`);
+  },
+  addAFrient(id, idRequest) {
+    return Api().post(`/frients/${id}`, idRequest);
   }
 };

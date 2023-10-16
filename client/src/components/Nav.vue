@@ -41,6 +41,10 @@
                 </li>
             </ul>
         </div>
+        <div class="prevent2" v-if="showSearchBar" @click="showpreventsearch()"></div>
+        <transition name="search-transition" appear>
+            <Search v-if="is_expanded && showSearchBar" />
+        </transition>
     </div>
 </template>
 
@@ -50,6 +54,8 @@ import Vue from "vue";
 
 import AuthenticationService from '../services/AuthenticationService';
 import { RouterLink } from 'vue-router'
+import Search from './Search.vue'
+
 let activeItem = null;
 export default {
     data() {
@@ -58,6 +64,7 @@ export default {
             show_nav: false,
             userid: this.$router.history.current.params.id,
             user: [],
+            showSearchBar: false,
             links: [
                 { id: 1, icon: "bi bi-house-door", icon_fill: "bi bi-house-fill", text: "Home", link_to: "Home" },
                 { id: 2, icon: "bi bi-search-heart", icon_fill: "bi bi-search-heart-fill", text: "Search", link_to: null },
@@ -77,6 +84,7 @@ export default {
     }, methods: {
         handleItemClick(link) {
             if (link.id === 2) {
+                this.showSearchBar = !this.showSearchBar
                 if (!this.is_expanded) {
                     this.is_expanded = !this.is_expanded
                 }
@@ -113,16 +121,25 @@ export default {
         },
         loadimg(user) {
             return require(`../assets/img_users/avatars/${user}`)
-        }
+        }, showpreventsearch() {
+            this.showSearchBar = false
+        },
     }, async mounted() {
         this.user = (await AuthenticationService.getUser(this.userid)).data;
         // console.log(this.links);
     },
-    components: { RouterLink },
+    components: { RouterLink, Search },
 }
 </script>
 
 <style scoped>
+.prevent2 {
+    width: 5000%;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+}
+
 .text {
     display: inline;
 }
@@ -281,6 +298,7 @@ export default {
     width: 60px;
     height: 710px;
     transition: 0.5s ease-in-out;
+    position: fixed;
 
     .text {
         font-size: 0;

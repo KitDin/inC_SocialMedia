@@ -9,10 +9,12 @@
                     <p class="HC-Post-username name1">Ruych.im <span class="username-time">• 19h</span></p>
                 </div>
                 <div class="HC-Post-imgs">
-                    <img src="../assets/img_users/covers/cover18.png" class="img">
-                    <img src="../assets/img_users/covers/cover18.png" class="img">
-                    <img src="../assets/img_users/covers/cover18.png" class="img">
-                    <img src="../assets/img_users/covers/cover18.png" class="img">
+                    <div class="img-container">
+                        <img src="../assets/img_users/covers/cover18.png" class="img">
+                        <img src="../assets/img_users/avatars/user10.png" class="img">
+                        <img src="../assets/img_users/avatars/user13.png" class="img">
+                        <img src="../assets/img_users/covers/cover18.png" class="img">
+                    </div>
                 </div>
                 <div class="HC-Post-icon">
                     <i @click="toggleHeart()"
@@ -32,187 +34,6 @@
                 <div class="allcomment">View 16 comment</div>
                 <input class="inputcomment" type="text" @pointerenter="" placeholder="Add a comment...">
             </div>
-
-            <div class="HC-Post">
-                <div class="HC-Post-infor">
-                    <img src="../assets/img_users/avatars/user18.png" class="avatar">
-                    <p class="HC-Post-username name1">Ruych.im <span class="username-time">• 19h</span></p>
-                </div>
-                <div class="HC-Post-imgs">
-                    <img src="../assets/img_users/covers/cover18.png" class="img">
-                    <img src="../assets/img_users/covers/cover18.png" class="img">
-                    <img src="../assets/img_users/covers/cover18.png" class="img">
-                    <img src="../assets/img_users/covers/cover18.png" class="img">
-                </div>
-                <div class="HC-Post-icon">
-                    <i @click="toggleHeart()"
-                        :class="['bi', { 'bi-heart': !isHeartFilled }, 'icon', { 'bi-heart-fill': isHeartFilled }]"></i>
-                    <i class="bi bi-chat icon"></i>
-                </div>
-                <div class="HC-Post-status">
-                    <span class="HC-Post-username name2">Ruych.im</span>
-                    <span class="status">Hello choi cung nhoa</span>
-                    <div class="status-hashtag">
-                        <span class="hashtag">#maiyeu</span>
-                        <span class="hashtag">#vlog</span>
-                        <span class="hashtag">#choicung</span>
-                        <span class="hashtag">#vuide</span>
-                    </div>
-                </div>
-                <div class="allcomment">View 16 comment</div>
-                <input class="inputcomment" type="text" @pointerenter="" placeholder="Add a comment...">
-            </div>
-
-            <div class="HC-Post">
-                <div class="HC-Post-infor">
-                    <img src="../assets/img_users/avatars/user18.png" class="avatar">
-                    <p class="HC-Post-username name1">Ruych.im <span class="username-time">• 19h</span></p>
-                </div>
-                <div class="HC-Post-imgs">
-                    <img src="../assets/img_users/covers/cover18.png" class="img">
-                    <img src="../assets/img_users/covers/cover18.png" class="img">
-                    <img src="../assets/img_users/covers/cover18.png" class="img">
-                    <img src="../assets/img_users/covers/cover18.png" class="img">
-                </div>
-                <div class="HC-Post-icon">
-                    <i @click="toggleHeart()"
-                        :class="['bi', { 'bi-heart': !isHeartFilled }, 'icon', { 'bi-heart-fill': isHeartFilled }]"></i>
-                    <i class="bi bi-chat icon"></i>
-                </div>
-                <div class="HC-Post-status">
-                    <span class="HC-Post-username name2">Ruych.im</span>
-                    <span class="status">Hello choi cung nhoa</span>
-                    <div class="status-hashtag">
-                        <span class="hashtag">#maiyeu</span>
-                        <span class="hashtag">#vlog</span>
-                        <span class="hashtag">#choicung</span>
-                        <span class="hashtag">#vuide</span>
-                    </div>
-                </div>
-                <div class="allcomment">View 16 comment</div>
-                <input class="inputcomment" type="text" @pointerenter="" placeholder="Add a comment...">
-            </div>
-
-            <div class="HC-Post">
-                <div class="HC-Post-infor">
-                    <img src="../assets/img_users/avatars/user18.png" class="avatar">
-                    <p class="HC-Post-username name1">Ruych.im <span class="username-time">• 19h</span></p>
-                </div>
-                <div class="HC-Post-imgs">
-                    <img src="../assets/img_users/covers/cover18.png" class="img">
-                    <img src="../assets/img_users/covers/cover18.png" class="img">
-                    <img src="../assets/img_users/covers/cover18.png" class="img">
-                    <img src="../assets/img_users/covers/cover18.png" class="img">
-                </div>
-                <div class="HC-Post-icon">
-                    <i @click="toggleHeart()"
-                        :class="['bi', { 'bi-heart': !isHeartFilled }, 'icon', { 'bi-heart-fill': isHeartFilled }]"></i>
-                    <i class="bi bi-chat icon"></i>
-                </div>
-                <div class="HC-Post-status">
-                    <span class="HC-Post-username name2">Ruych.im</span>
-                    <span class="status">Hello choi cung nhoa</span>
-                    <div class="status-hashtag">
-                        <span class="hashtag">#maiyeu</span>
-                        <span class="hashtag">#vlog</span>
-                        <span class="hashtag">#choicung</span>
-                        <span class="hashtag">#vuide</span>
-                    </div>
-                </div>
-                <div class="allcomment">View 16 comment</div>
-                <input class="inputcomment" type="text" @pointerenter="" placeholder="Add a comment...">
-            </div>
-
-            <div class="HC-Post">
-                <div class="HC-Post-infor">
-                    <img src="../assets/img_users/avatars/user18.png" class="avatar">
-                    <p class="HC-Post-username name1">Ruych.im <span class="username-time">• 19h</span></p>
-                </div>
-                <div class="HC-Post-imgs">
-                    <img src="../assets/img_users/covers/cover18.png" class="img">
-                    <img src="../assets/img_users/covers/cover18.png" class="img">
-                    <img src="../assets/img_users/covers/cover18.png" class="img">
-                    <img src="../assets/img_users/covers/cover18.png" class="img">
-                </div>
-                <div class="HC-Post-icon">
-                    <i @click="toggleHeart()"
-                        :class="['bi', { 'bi-heart': !isHeartFilled }, 'icon', { 'bi-heart-fill': isHeartFilled }]"></i>
-                    <i class="bi bi-chat icon"></i>
-                </div>
-                <div class="HC-Post-status">
-                    <span class="HC-Post-username name2">Ruych.im</span>
-                    <span class="status">Hello choi cung nhoa</span>
-                    <div class="status-hashtag">
-                        <span class="hashtag">#maiyeu</span>
-                        <span class="hashtag">#vlog</span>
-                        <span class="hashtag">#choicung</span>
-                        <span class="hashtag">#vuide</span>
-                    </div>
-                </div>
-                <div class="allcomment">View 16 comment</div>
-                <input class="inputcomment" type="text" @pointerenter="" placeholder="Add a comment...">
-            </div>
-
-            <div class="HC-Post">
-                <div class="HC-Post-infor">
-                    <img src="../assets/img_users/avatars/user18.png" class="avatar">
-                    <p class="HC-Post-username name1">Ruych.im <span class="username-time">• 19h</span></p>
-                </div>
-                <div class="HC-Post-imgs">
-                    <img src="../assets/img_users/covers/cover18.png" class="img">
-                    <img src="../assets/img_users/covers/cover18.png" class="img">
-                    <img src="../assets/img_users/covers/cover18.png" class="img">
-                    <img src="../assets/img_users/covers/cover18.png" class="img">
-                </div>
-                <div class="HC-Post-icon">
-                    <i @click="toggleHeart()"
-                        :class="['bi', { 'bi-heart': !isHeartFilled }, 'icon', { 'bi-heart-fill': isHeartFilled }]"></i>
-                    <i class="bi bi-chat icon"></i>
-                </div>
-                <div class="HC-Post-status">
-                    <span class="HC-Post-username name2">Ruych.im</span>
-                    <span class="status">Hello choi cung nhoa</span>
-                    <div class="status-hashtag">
-                        <span class="hashtag">#maiyeu</span>
-                        <span class="hashtag">#vlog</span>
-                        <span class="hashtag">#choicung</span>
-                        <span class="hashtag">#vuide</span>
-                    </div>
-                </div>
-                <div class="allcomment">View 16 comment</div>
-                <input class="inputcomment" type="text" @pointerenter="" placeholder="Add a comment...">
-            </div>
-
-            <div class="HC-Post">
-                <div class="HC-Post-infor">
-                    <img src="../assets/img_users/avatars/user18.png" class="avatar">
-                    <p class="HC-Post-username name1">Ruych.im <span class="username-time">• 19h</span></p>
-                </div>
-                <div class="HC-Post-imgs">
-                    <img src="../assets/img_users/covers/cover18.png" class="img">
-                    <img src="../assets/img_users/covers/cover18.png" class="img">
-                    <img src="../assets/img_users/covers/cover18.png" class="img">
-                    <img src="../assets/img_users/covers/cover18.png" class="img">
-                </div>
-                <div class="HC-Post-icon">
-                    <i @click="toggleHeart()"
-                        :class="['bi', { 'bi-heart': !isHeartFilled }, 'icon', { 'bi-heart-fill': isHeartFilled }]"></i>
-                    <i class="bi bi-chat icon"></i>
-                </div>
-                <div class="HC-Post-status">
-                    <span class="HC-Post-username name2">Ruych.im</span>
-                    <span class="status">Hello choi cung nhoa</span>
-                    <div class="status-hashtag">
-                        <span class="hashtag">#maiyeu</span>
-                        <span class="hashtag">#vlog</span>
-                        <span class="hashtag">#choicung</span>
-                        <span class="hashtag">#vuide</span>
-                    </div>
-                </div>
-                <div class="allcomment">View 16 comment</div>
-                <input class="inputcomment" type="text" @pointerenter="" placeholder="Add a comment...">
-            </div>
-
             <NavRequestFriend></NavRequestFriend>
         </div>
     </div>
@@ -227,9 +48,10 @@ import AuthenticationService from "../services/AuthenticationService"
 export default {
     data() {
         return {
+            currentImageIndex: 0,
             isHeartFilled: false,
             userid: this.$router.history.current.params.id,
-            user: []
+            user: [],
         }
     },
     components: {
@@ -247,17 +69,18 @@ export default {
     },
     async mounted() {
         this.user = (await AuthenticationService.getUser(this.userid)).data
-        // console.log(this.user.USER_AvatarURL);
+
     }
 }
 </script>
 
 <style scoped>
 .HomeContent {
+    top: 0;
     margin: 0;
     width: 100%;
     height: fit-content;
-    position: relative;
+    position: absolute;
 
     .HC-Post {
         width: 478px;
@@ -297,16 +120,20 @@ export default {
 
 
         .HC-Post-imgs {
-            width: 100%;
-            height: 584px;
-            display: flex;
-            flex-wrap: nowrap;
             overflow: hidden;
             border-radius: 15px;
 
+            .img-container {
+                display: flex;
+                flex-wrap: nowrap;
+
+            }
+
             .img {
-                width: 100%;
-                height: 584px;
+                max-width: 100%;
+                max-height: 100%;
+                width: auto;
+                height: auto;
                 object-fit: cover;
             }
         }
@@ -366,7 +193,7 @@ export default {
         .inputcomment {
             width: 100%;
             border: none;
-            background-color: #fafafa;
+            /* background-color: #fafafa; */
             font-size: 14px;
             margin-bottom: 8px;
         }

@@ -25,13 +25,16 @@
         </div>
         <div class="SF-Found">
 
-            <div class="NF-request" v-for="user in searchResults" :key="user.USER_Id">
+            <div class="NF-request" v-for="user in searchResults" :key="user.USER_Id" @click="goToProfile(user.USER_Id)">
                 <div class="NF-request-user">
-                    <img class="NF-request-user-avata pointer" :src="loadimg(user.USER_AvatarURL)" alt="">
+                    <img class="NF-request-user-avata pointer" :src="loadimg(user)" alt="">
                     <div class="NF-request-user-name">
                         <p class="username pointer">{{ user.USER_NickName }}</p>
-                        <p class="fullname">{{ user.USER_SubName + " " + user.USER_FirstName }} <span class="status">•
-                                Friend</span></p>
+                        <p class="fullname">{{ user.USER_SubName + " " + user.USER_FirstName }}
+                            <span v-if="user.USER_Id != user_personal" class="status">• Friend</span>
+                            <span v-if="user.USER_Id == user_personal" class="status" style="color: blue;">• It's
+                                me</span>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -45,6 +48,8 @@ import AuthenticationService from '../services/AuthenticationService'
 export default {
     data() {
         return {
+            user_personal: this.$router.history.current.params.id,
+            user_other_profile: this.$router.history.current.params.idother,
             user: [],
             searchQuery: '',
             searchResults: [],
@@ -61,15 +66,20 @@ export default {
                 this.showNoResults = false
                 return;
             }
+
             const lowercaseQuery = query ? query.toLowerCase() : '';
             this.searchResults = this.user.filter(user => {
+                const isCurrentUser = user.USER_Id == this.user_personal;
                 const subName = user.USER_SubName ? user.USER_SubName.toLowerCase() : '';
                 const nickName = user.USER_NickName ? user.USER_NickName.toLowerCase() : '';
                 const firstName = user.USER_FirstName ? user.USER_FirstName.toLowerCase() : '';
+                const fullname = subName.concat(' ', firstName)
 
-                return subName.includes(lowercaseQuery) ||
-                    nickName.includes(lowercaseQuery) ||
-                    firstName.includes(lowercaseQuery);
+                return !isCurrentUser &&
+                    (subName.includes(lowercaseQuery) ||
+                        nickName.includes(lowercaseQuery) ||
+                        firstName.includes(lowercaseQuery) ||
+                        fullname.includes(lowercaseQuery));
             });
 
             if (this.searchResults.length === 0) {
@@ -88,12 +98,27 @@ export default {
                 }, 0);
             }, 500);
         }, loadimg(user) {
-            return require(`../assets/img_users/avatars/${user}`)
+            if (user && user.USER_AvatarURL) {
+                return require(`../../../server/public/uploads/avatar/${user.USER_AvatarURL}`);
+            }
+        },
+        goProfilePersonal() {
+            this.$router.push(`/profile/${this.user_personal}`)
+        },
+        goProfileOther(idother) {
+            this.$router.push(`/profile/${this.user_personal}/${idother.USER_Id}`)
+        }, goToProfile(id) {
+            if (id === this.user_personal) {
+                this.goProfilePersonal();
+            } else {
+                const targetRoute = `/profile/${this.user_personal}/${id}`;
+                if (this.$route.path !== targetRoute) {
+                    this.$router.push(targetRoute);
+                }
+            }
         }
     }, async mounted() {
         this.user = (await AuthenticationService.getUsers()).data
-        console.log(this.user)
-        // console.log(this.searchResults)
     }
 }
 
@@ -148,6 +173,7 @@ export default {
             padding: 8px 0 8px 8px;
             position: relative;
             border-radius: 12px;
+            z-index: 1111111;
 
             &:hover {
                 background-color: #EFEFEF;
@@ -227,7 +253,7 @@ export default {
     justify-content: center;
     position: absolute;
     background: rgba(255, 255, 255, 0.8);
-    z-index: 99999999;
+    z-index: 99999;
     margin-top: 20px;
     width: 88%;
     height: 80%;

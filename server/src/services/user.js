@@ -56,6 +56,7 @@ export async function getAccountName_Email(accountName, email) {
 }
 
 export async function createUser(
+  USER_Id,
   USER_AccountName,
   USER_Email,
   USER_Password,
@@ -63,9 +64,43 @@ export async function createUser(
 ) {
   const [INSERT] = await pool.query(
     `INSERT INTO 
-    __user( USER_AccountName, USER_Email, USER_Password, USER_CreateAt, USER_UpdateAt) 
-    VALUES (?,?,?,?,?)`,
-    [USER_AccountName, USER_Email, USER_Password, new Date(), USER_UpdateAt]
+    __user(USER_Id,USER_AccountName, USER_Email, USER_Password, USER_CreateAt, USER_UpdateAt) 
+    VALUES (?,?,?,?,?,?)`,
+    [
+      USER_Id,
+      USER_AccountName,
+      USER_Email,
+      USER_Password,
+      new Date(),
+      USER_UpdateAt,
+    ]
   );
   return [INSERT.insertId, USER_AccountName, USER_Email];
+}
+
+export async function setInforUser(
+  USER_AvatarURL,
+  USER_Id,
+  USER_NickName,
+  USER_FirstName,
+  USER_SubName,
+  USER_NumberPhone,
+  USER_BirthDay,
+  USER_Bio,
+  USER_Sex
+) {
+  const insertInfor = `INSERT INTO __user_infor
+    (USER_Id,USER_FirstName ,USER_SubName ,USER_NickName ,
+    USER_NumberPhone ,USER_AvatarURL ,USER_BrithDay ) 
+    VALUES (?,?,?,?,?,?,?)`;
+  const [INSERT] = await pool.query(insertInfor, [
+    USER_Id,
+    USER_FirstName,
+    USER_SubName,
+    USER_NickName,
+    USER_NumberPhone,
+    USER_AvatarURL,
+    USER_BirthDay,
+  ]);
+  return INSERT.USER_FirstName;
 }

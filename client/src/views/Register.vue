@@ -3,7 +3,7 @@
         <div class="container ">
             <div class="row d-flex align-items-center justify-content-center">
                 <div style="max-width:420px;">
-                    <form action="/home" autocomplete="off" class="bg-white border py-4 px-5" method="get">
+                    <form action="/home" autocomplete="off" class="bg-white border py-4 px-5" method="post">
                         <div class="text-center mb-3">
                             <img src="../assets/img_logo/logo.png" alt="" style="width: 25%;" class="py-4">
                             <p class="text-muted opacity-100">
@@ -63,6 +63,7 @@ import AuthenticationSevice from '../services/AuthenticationService'
 export default {
     data() {
         return {
+            id: '',
             email: '',
             fullname: '',
             username: '',
@@ -74,6 +75,7 @@ export default {
     }, methods: {
         async register() {
             await AuthenticationSevice.register({
+                "USER_Id": this.id,
                 "USER_AccountName": this.username,
                 "USER_Email": this.email,
                 "USER_Password": this.password,
@@ -83,12 +85,24 @@ export default {
                 this.error = response.data.error;
                 this.status = response.data.status;
                 if (response.data.status === "successful") {
-                    this.$router.push(`/`)
+                    this.$router.push(`/information/${this.id}`)
                 }
             });
         }
     }, components: {
         Footer,
+    }, mounted() {
+        function makeRandomId(length) {
+            let result = ''
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+            for (let i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            return result;
+        }
+        const randomLenght = Math.floor(Math.random() * 30)
+        this.id = makeRandomId(randomLenght),
+            console.log(this.id);
     }
 }
 </script>

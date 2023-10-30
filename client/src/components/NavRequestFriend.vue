@@ -1,10 +1,10 @@
 <template>
     <div class="NavFriend">
         <div class="NF-myInf">
-            <img class="NF-myInf-avatar pointer" src="../assets/img_users/avatars/user18.png" alt="">
+            <img class="NF-myInf-avatar pointer" @click="goProfilePersonal" :src="loadimg(user_personal)" alt="">
             <div class="NF-myInf-name">
-                <p class="myUsername pointer">iamdtkiet</p>
-                <p class="myName">Đinh Tuấn Kiệt</p>
+                <p class="myUsername pointer" @click="goProfilePersonal">{{ user_personal.USER_NickName }}</p>
+                <p class="myName">{{ user_personal.USER_SubName + " " + user_personal.USER_FirstName }}</p>
             </div>
             <p class="NF-myInf-logout" @click="logout()">Logout</p>
         </div>
@@ -14,9 +14,9 @@
 
         <div class="NF-request" v-for="user in users.slice(0, 5)" :key="user.id">
             <div class="NF-request-user">
-                <img class="NF-request-user-avata pointer" :src="loadimg(user.USER_AvatarURL)" alt="">
+                <img class="NF-request-user-avata pointer" @click="goProfileOther(user)" :src="loadimg(user)" alt="">
                 <div class="NF-request-user-name">
-                    <p class="username pointer"> {{ user.USER_NickName }}</p>
+                    <p class="username pointer" @click="goProfileOther(user)"> {{ user.USER_NickName }}</p>
                     <p class="time">by {{ timeRequest(user) }}</p>
                 </div>
                 <button class="NF-request-user-accept" @click="clickaccept(user)">Accept</button>
@@ -45,6 +45,7 @@ export default {
     data() {
         return {
             loadingAccept: false,
+            user_personal: [],
             userid: this.$router.history.current.params.id,
             users: []
         }
@@ -57,7 +58,9 @@ export default {
             this.$router.push('/')
         },
         loadimg(user) {
-            return require(`../assets/img_users/avatars/${user}`)
+            if (user && user.USER_AvatarURL) {
+                return require(`../../../server/public/uploads/avatar/${user.USER_AvatarURL}`);
+            }
         }
         , timeRequest(user) {
             const fixedDate = new Date(user.FR_CreateAt);
@@ -91,12 +94,16 @@ export default {
                     this.loadingAccept = false;
                 }, 500);
             }
+        },
+        goProfilePersonal() {
+            this.$router.push(`/profile/${this.userid}`)
+        },
+        goProfileOther(idother) {
+            this.$router.push(`/profile/${this.userid}/${idother.USER_Id}`)
         }
     }, async mounted() {
+        this.user_personal = (await AuthenticationService.getUser(this.userid)).data;
         this.users = (await AuthenticationService.getUserRequest(this.userid)).data;
-        for (let index = 0; index < 5; index++) {
-            console.log(this.users[index].FR_id);
-        }
     }
 }
 </script>

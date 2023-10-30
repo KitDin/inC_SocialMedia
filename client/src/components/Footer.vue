@@ -33,6 +33,7 @@ export default {
      display: flex;
      justify-content: center;
      flex-wrap: wrap;
+     z-index: 0;
  }
 
  ul>li {

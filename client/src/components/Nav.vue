@@ -7,8 +7,7 @@
                     @click="handleItemClick(link)" style="cursor: pointer;">
                     <div class="nava">
                         <i v-if="link.icon" ref="i" class="icon" :class="getActiveIconClass(link)"></i>
-                        <img v-else :src="user.USER_AvatarURL != null ? loadimg(user.USER_AvatarURL) : ''" alt=""
-                            class="avatar">
+                        <img v-else :src="user.USER_AvatarURL != null ? loadimg(user) : ''" alt="" class="avatar">
                         <p class="text" v-if="!is_expanded">{{ link.text }}</p>
                     </div>
                 </li>
@@ -45,6 +44,10 @@
         <transition name="search-transition" appear>
             <Search v-if="is_expanded && showSearchBar" />
         </transition>
+
+        <transition name="search-transition" appear>
+            <Post v-if="showPostBar" />
+        </transition>
     </div>
 </template>
 
@@ -55,6 +58,7 @@ import Vue from "vue";
 import AuthenticationService from '../services/AuthenticationService';
 import { RouterLink } from 'vue-router'
 import Search from './Search.vue'
+import Post from './Post.vue';
 
 let activeItem = null;
 export default {
@@ -64,6 +68,7 @@ export default {
             show_nav: false,
             userid: this.$router.history.current.params.id,
             user: [],
+            showPostBar: false,
             showSearchBar: false,
             links: [
                 { id: 1, icon: "bi bi-house-door", icon_fill: "bi bi-house-fill", text: "Home", link_to: "Home" },
@@ -71,7 +76,7 @@ export default {
                 { id: 3, icon: "bi bi-chat-dots", icon_fill: "bi bi-chat-fill", text: "Messages", link_to: "Messages" },
                 { id: 4, icon: "bi bi-heart", icon_fill: "bi bi-heart-fill", text: "Notifications", link_to: null },
                 { id: 5, icon: "bi bi-plus-circle", icon_fill: "bi bi-plus-circle-fill", text: "Create", link_to: null },
-                { id: 6, text: "Profile", avatar: this.user ? this.user.USER_AvatarURL : '', link_to: "/notifications" },
+                { id: 6, text: "Profile", avatar: this.user ? this.user.USER_AvatarURL : '', link_to: "Profile" },
             ],
             set_up_items: [
                 { id: 1, icon: "bi bi-gear", text: "Settings" },
@@ -87,15 +92,17 @@ export default {
                 this.showSearchBar = !this.showSearchBar
                 if (!this.is_expanded) {
                     this.is_expanded = !this.is_expanded
+                } else if (this.is_expanded) {
+                    this.is_expanded = !this.is_expanded
                 }
             } else if (link.id === 4) {
                 if (!this.is_expanded) {
                     this.is_expanded = !this.is_expanded
-                }
-            } else if (link.id === 5) {
-                if (!this.is_expanded) {
+                } else if (this.is_expanded) {
                     this.is_expanded = !this.is_expanded
                 }
+            } else if (link.id === 5) {
+                this.showPostBar = !this.showPostBar
             } else {
                 this.$router.push({
                     name: link.link_to,
@@ -107,7 +114,7 @@ export default {
                     ) {
                         logError(err);
                     }
-                });;
+                });
             }
         },
         getActiveIconClass(link) {
@@ -120,15 +127,22 @@ export default {
             this.show_nav = !this.show_nav
         },
         loadimg(user) {
-            return require(`../assets/img_users/avatars/${user}`)
+            if (user && user.USER_AvatarURL) {
+                return require(`../../../server/public/uploads/avatar/${user.USER_AvatarURL}`);
+            }
         }, showpreventsearch() {
             this.showSearchBar = false
-        },
+            if (!this.is_expanded) {
+                this.is_expanded = !this.is_expanded
+            } else if (this.is_expanded) {
+                this.is_expanded = !this.is_expanded
+            }
+        }
     }, async mounted() {
         this.user = (await AuthenticationService.getUser(this.userid)).data;
         // console.log(this.links);
     },
-    components: { RouterLink, Search },
+    components: { RouterLink, Search, Post },
 }
 </script>
 
@@ -136,12 +150,26 @@ export default {
 .prevent2 {
     width: 5000%;
     height: 100%;
-    position: absolute;
+    position: fixed;
     top: 0px;
+    z-index: -8888888888888888888888888888888;
+    transition: 0.1s linear;
+}
+
+.prevent3 {
+    width: 5000%;
+    height: 100%;
+    position: fixed;
+    top: 0px;
+    left: 0;
+    z-index: -1;
+    background-color: black;
+    opacity: 0.5;
 }
 
 .text {
     display: inline;
+    transition: 0.0s linear;
 }
 
 .navcol-246 {
@@ -157,7 +185,7 @@ export default {
     padding-left: 8px;
     padding-right: 8px;
     border-right: 1px solid silver;
-    transition: 0.2s ease-out;
+    z-index: 999;
 
 
     .navmenu {
@@ -177,6 +205,7 @@ export default {
 
     .text {
         opacity: 1;
+        transition: 0.5s linear;
     }
 
 }
@@ -299,6 +328,7 @@ export default {
     height: 710px;
     transition: 0.5s ease-in-out;
     position: fixed;
+    z-index: 999999;
 
     .text {
         font-size: 0;
@@ -311,12 +341,15 @@ export default {
         height: 330px;
         list-style: none;
         display: flex;
+        transition: 0.5s linear;
         flex-direction: column;
 
         .navli {
             display: block;
             width: 100%;
             height: 100%;
+            transition: 0.5s linear;
+
         }
     }
 
@@ -328,6 +361,7 @@ export default {
     .more-setup {
         position: relative;
         width: 100%;
+        transition: 0.5s linear;
 
         .navmenu {
             position: relative;
@@ -388,6 +422,8 @@ export default {
                         }
 
                         .text {
+                            transition: 0.5s linear;
+
                             font-size: 14px;
                         }
                     }
@@ -404,6 +440,8 @@ export default {
 
         .set-up-off {
             display: none;
+            transition: 0.5s linear;
+
         }
     }
 }

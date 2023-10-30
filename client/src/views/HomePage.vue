@@ -5,15 +5,18 @@
             <Nav></Nav>
             <div class="HC-Post">
                 <div class="HC-Post-infor">
-                    <img src="../assets/img_users/avatars/user18.png" class="avatar">
+                    <img :src="loadimg(user)" class="avatar">
                     <p class="HC-Post-username name1">Ruych.im <span class="username-time">• 19h</span></p>
                 </div>
                 <div class="HC-Post-imgs">
-                    <div class="img-container">
-                        <img src="../assets/img_users/covers/cover18.png" class="img">
-                        <img src="../assets/img_users/avatars/user10.png" class="img">
-                        <img src="../assets/img_users/avatars/user13.png" class="img">
-                        <img src="../assets/img_users/covers/cover18.png" class="img">
+                    <div class="img-container" v-for="(img, index) in imgs" :key="index">
+                        <img :src="loadimgpost(img)" class="img">
+                    </div>
+                    <div style="color: brown; margin-left: 5px;">End</div>
+                    <div class="HC-Post-scroll-bar">
+                        <div class="HC-Post-scroll-bar-dots">
+                            <div class="HC-Post-scroll-bar-dot" v-for="(img, index) in imgs" :key="index"></div>
+                        </div>
                     </div>
                 </div>
                 <div class="HC-Post-icon">
@@ -45,13 +48,33 @@ import Nav from "../components/Nav.vue"
 import NavRequestFriend from "../components/NavRequestFriend.vue"
 import AuthenticationService from "../services/AuthenticationService"
 
+const handleScroll = (event) => {
+    const scrollPercent = event.target.scrollLeft / (imgs.length - 1);
+    const currentDot = Math.floor(scrollPercent * 3);
+
+    const dots = document.querySelectorAll(".HC-Post-scroll-bar-dot");
+    for (let i = 0; i < dots.length; i++) {
+        dots[i].classList.remove("active");
+    }
+
+    dots[currentDot].classList.add("active");
+};
+
 export default {
+    name: 'Home',
     data() {
         return {
             currentImageIndex: 0,
             isHeartFilled: false,
             userid: this.$router.history.current.params.id,
             user: [],
+            imgs: [
+                "user8.png",
+                "user1.png",
+                "user4.png",
+                "user5.png",
+                "user6.png",
+            ]
         }
     },
     components: {
@@ -59,17 +82,24 @@ export default {
         Nav,
         NavRequestFriend
     },
+    props: ['id'],
     methods: {
-        loadimg(user) {
-            return require(`../assets/img_users/avatars/${user}`)
-        }, toggleHeart() {
+        handleScroll,
+        loadimgpost(img) {
+            return require(`../../../server/public/uploads/avatar/${img}`);
+        },
+        toggleHeart() {
             this.isHeartFilled = !this.isHeartFilled; // Chuyển đổi trạng thái trái tim
             console.log(this.isHeartFilled)
-        },
+        }, loadimg(user) {
+            if (user && user.USER_AvatarURL) {
+                return require(`../../../server/public/uploads/avatar/${user.USER_AvatarURL}`);
+            }
+        }
     },
     async mounted() {
         this.user = (await AuthenticationService.getUser(this.userid)).data
-
+        console.log(this.id);
     }
 }
 </script>
@@ -119,24 +149,7 @@ export default {
         }
 
 
-        .HC-Post-imgs {
-            overflow: hidden;
-            border-radius: 15px;
 
-            .img-container {
-                display: flex;
-                flex-wrap: nowrap;
-
-            }
-
-            .img {
-                max-width: 100%;
-                max-height: 100%;
-                width: auto;
-                height: auto;
-                object-fit: cover;
-            }
-        }
 
         .HC-Post-icon {
             padding-top: 8px;
@@ -151,7 +164,7 @@ export default {
             }
 
             .bi-heart-fill {
-                color: red;
+                color: violet;
             }
 
         }
@@ -198,6 +211,58 @@ export default {
             margin-bottom: 8px;
         }
     }
+}
+
+.HC-Post-imgs::-webkit-scrollbar {
+    display: none;
+}
+
+.HC-Post-imgs {
+    width: 469px;
+    height: 589px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* position: relative; */
+
+}
+
+.HC-Post-imgs .img-container {
+    scroll-snap-align: center;
+}
+
+.HC-Post-imgs .img-container .img {
+    width: 469px;
+    height: 589px;
+    object-fit: cover;
+}
+
+.HC-Post-scroll-bar {
+    width: 469px;
+    height: 30px;
+    border-radius: 15px;
+    /* background-color: #ccc */
+    bottom: 150px;
+    position: absolute;
+}
+
+.HC-Post-scroll-bar-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.HC-Post-scroll-bar-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: #ccc;
+    margin: 0 5px;
 }
 </style>
 

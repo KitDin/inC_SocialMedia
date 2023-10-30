@@ -5,9 +5,8 @@ import {
   createUser,
   getAccountName_Email,
   checkAccout_Password,
+  setInforUser,
 } from "../services/user.js";
-import { pool } from "../db/db.js";
-import { setStatus } from "./polices/police.js";
 
 export async function getUsersController(req, res) {
   const users = await getUsers();
@@ -43,6 +42,7 @@ function isUsernameValid(username) {
 export async function register(req, res) {
   try {
     const {
+      USER_Id,
       USER_AccountName,
       USER_Email,
       USER_Password,
@@ -90,6 +90,7 @@ export async function register(req, res) {
             });
           } else {
             const create = await createUser(
+              USER_Id,
               USER_AccountName,
               USER_Email,
               USER_Password,
@@ -108,6 +109,39 @@ export async function register(req, res) {
   } catch (error) {
     res.status(400).send({ error: "Pls, " });
   }
+}
+
+export async function registerInfor(req, res) {
+  const file = req.files.map((file) => file.filename);
+  const {
+    USER_Id,
+    USER_NickName,
+    USER_FirstName,
+    USER_SubName,
+    USER_NumberPhone,
+    USER_BirthDay,
+    USER_Bio,
+    USER_Sex,
+  } = req.body;
+  try {
+    await setInforUser(
+      file,
+      USER_Id,
+      USER_NickName,
+      USER_FirstName,
+      USER_SubName,
+      USER_NumberPhone,
+      USER_BirthDay,
+      USER_Bio,
+      USER_Sex
+    );
+    return res.json({
+      status: "successful",
+    });
+  } catch (error) {
+    console.log(error);
+  }
+  console.log(req.body, file);
 }
 
 export async function login(req, res) {
